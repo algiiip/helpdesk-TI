@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard Helpdesk TI</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f3f7f3;
+            color: #1e293b;
+        }
+
+        /* =====================================================
+                            SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 260px;
+            height: 100vh;
+
+            background: linear-gradient(
+                180deg,
+                #174c35 0%,
+                #216743 100%
+            );
+
+            padding: 25px 18px;
+            color: white;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        /* BRAND */
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 5px 10px 30px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: #26734d;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .brand-text span {
+            color: #8fc69b;
+        }
+
+        /* MENU */
+
+        .menu {
+            margin-top: 10px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 14px 15px;
+            border-radius: 10px;
+            margin-bottom: 7px;
+            transition: all 0.2s ease;
+            font-size: 15px;
+        }
+
+        .menu a i {
+            font-size: 19px;
+            width: 22px;
+            text-align: center;
+        }
+
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .menu a.active {
+            background: linear-gradient(
+                90deg,
+                #26734d,
+                #318054
+            );
+            color: white;
+            box-shadow:
+                0 5px 15px rgba(38, 115, 77, 0.25);
+        }
+
+        /* SIDEBAR FOOTER */
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 18px;
+            right: 18px;
+            border-top:
+                1px solid rgba(255, 255, 255, 0.15);
+            padding: 20px 12px 0;
+        }
+
+        .sidebar-footer-title {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .sidebar-footer-text {
+            font-size: 14px;
+            color: white;
+            margin-top: 5px;
+        }
+
+
+        /* =====================================================
+                            TOPBAR
+        ===================================================== */
+
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 260px;
+            right: 0;
+            height: 74px;
+            background: white;
+            border-bottom:
+                1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 35px;
+            z-index: 900;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #eaf4ed;
+            color: #26734d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .user-name strong {
+            color: #1e293b;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #f8fafc;
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+
+        /* =====================================================
+                        MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+            margin-left: 260px;
+            padding:
+                105px 40px 50px;
+            width:
+                calc(100% - 260px);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* WELCOME */
+
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #eaf4ed;
+            color: #26734d;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* PAGE TITLE */
+
+        .page-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 0;
+            color: #174c35;
+        }
+
+        .page-title span {
+            color: #26734d;
+        }
+
+        .page-description {
+            color: #64748b;
+            font-size: 17px;
+            margin-top: 10px;
+            margin-bottom: 40px;
+        }
+
+
+        /* =====================================================
+                            CARDS
+        ===================================================== */
+
+        .feature-card {
+            background: white;
+            border:
+                1px solid #e6edf7;
+            border-radius: 18px;
+            min-height: 280px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition:
+                all 0.25s ease;
+        }
+
+        .feature-card:hover {
+            transform:
+                translateY(-5px);
+            box-shadow:
+                0 15px 35px
+                rgba(23, 76, 53, 0.10);
+        }
+
+        /* ICON */
+
+        .feature-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            margin-bottom: 20px;
+        }
+
+        .icon-primary {
+            background: #eaf4ed;
+            color: #26734d;
+        }
+
+        .icon-green {
+            background: #ddedde;
+            color: #26734d;
+        }
+
+
+        /* CARD TITLE */
+
+        .feature-title {
+            font-size: 23px;
+            font-weight: 700;
+            color: #174c35;
+            margin-bottom: 10px;
+        }
+
+
+        /* CARD DESCRIPTION */
+
+        .feature-description {
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.7;
+            max-width: 55%;
+            margin-bottom: 25px;
+        }
+
+
+        /* BUTTON */
+
+        .feature-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            transition: 0.2s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-btn:hover {
+            color: white;
+            transform:
+                translateX(3px);
+        }
+
+        .btn-primary-green {
+            background: #26734d;
+        }
+
+        .btn-primary-green:hover {
+            background: #174c35;
+        }
+
+        .btn-green {
+            background: #26734d;
+        }
+
+        .btn-green:hover {
+            background: #174c35;
+        }
+
+
+        /* =====================================================
+                        CARD DECORATION
+        ===================================================== */
+
+        .card-decoration {
+            position: absolute;
+            right: 25px;
+            top: 35px;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .card-decoration img {
+            width: 270px;
+            height: 270px;
+            object-fit: contain;
+        }
+
+        .decoration-primary {
+            background: #eaf4ed;
+        }
+
+        .decoration-green {
+            background: #eaf4ed;
+        }
+
+
+        /* =====================================================
+                            BOOTSTRAP ROW FIX
+        ===================================================== */
+
+        .main-content .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+
+        /* =====================================================
+                            RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1200px) {
+            .main-content {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+
+            .page-title {
+                font-size: 36px;
+            }
+
+            .card-decoration {
+                right: 20px;
+            }
+        }
+
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .topbar {
+                left: 220px;
+            }
+
+            .main-content {
+                margin-left: 220px;
+                width:
+                    calc(100% - 220px);
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+
+            .page-title {
+                font-size: 34px;
+            }
+
+            .card-decoration {
+                display: none;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+
+            .brand {
+                padding-bottom: 15px;
+            }
+
+            .menu {
+                display: flex;
+                gap: 5px;
+                overflow-x: auto;
+            }
+
+            .menu a {
+                white-space: nowrap;
+                margin-bottom: 0;
+            }
+
+            .sidebar-footer {
+                display: none;
+            }
+
+            .topbar {
+                position: relative;
+                left: 0;
+                right: auto;
+                width: 100%;
+                height: 65px;
+                padding:
+                    0 20px;
+                justify-content: flex-end;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding:
+                    30px 20px 40px;
+            }
+
+            .page-title {
+                font-size: 30px;
+            }
+
+            .page-description {
+                font-size: 15px;
+                margin-bottom: 25px;
+            }
+
+            .feature-card {
+                min-height: auto;
+                margin-bottom: 20px;
+            }
+
+            .user-name {
+                display: none;
+            }
+        }
+
+
+        @media (max-width: 576px) {
+            .brand-text {
+                font-size: 18px;
+            }
+
+            .menu a {
+                padding:
+                    11px 12px;
+                font-size: 14px;
+            }
+
+            .page-title {
+                font-size: 27px;
+            }
+
+            .welcome-badge {
+                font-size: 13px;
+            }
+
+            .feature-card {
+                padding: 25px;
+            }
+
+            .feature-title {
+                font-size: 21px;
+            }
+
+            .feature-description {
+                font-size: 14px;
+            }
+
+            .feature-btn {
+                padding:
+                    10px 18px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+                            SIDEBAR
+    ===================================================== -->
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="bi bi-headset"></i>
+            </div>
+
+            <div class="brand-text">
+                Helpdesk <span>TI</span>
+            </div>
+        </div>
+
+        <nav class="menu">
+
+            <!-- DASHBOARD -->
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="active"
+            >
+                <i class="bi bi-house-door-fill"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <!-- BUAT PENGADUAN -->
+
+            <a
+                href="{{ url_for('buat_pengaduan') }}"
+            >
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Buat Pengaduan</span>
+            </a>
+
+            <!-- PENGADUAN SAYA -->
+
+            <a
+                href="{{ url_for('pengaduan_saya') }}"
+            >
+                <i class="bi bi-file-earmark-text-fill"></i>
+                <span>Pengaduan Saya</span>
+            </a>
+
+        </nav>
+
+        <!-- SIDEBAR FOOTER -->
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-title">
+                <i class="bi bi-shield-check me-2"></i>
+                Helpdesk TI
+            </div>
+
+            <div class="sidebar-footer-text">
+                Solusi cepat, layanan terbaik
+            </div>
+
+        </div>
+    </aside>
+
+    <!-- =====================================================
+                            TOPBAR
+    ===================================================== -->
+
+    <header class="topbar">
+        <div class="user-area">
+            <div class="user-icon">
+                <i class="bi bi-person"></i>
+            </div>
+
+            <div class="user-name">
+                Halo,
+                <strong>{{ nama }}</strong>
+            </div>
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-btn"
+            >
+                <i class="bi bi-box-arrow-right me-2"></i>
+                Logout
+            </a>
+
+        </div>
+    </header>
+
+    <!-- =====================================================
+                        MAIN CONTENT
+    ===================================================== -->
+
+    <main class="main-content">
+
+        <!-- WELCOME -->
+        <div class="welcome-badge">
+            <span>👋</span>
+            Selamat datang kembali!
+        </div>
+
+        <!-- TITLE -->
+        <h1 class="page-title">
+            Dashboard
+            <span>Helpdesk TI</span>
+        </h1>
+
+        <p class="page-description">
+            Silakan buat pengaduan apabila mengalami
+            masalah teknologi informasi.
+        </p>
+
+        <!-- =================================================
+                            FEATURE CARDS
+        ================================================= -->
+
+        <div class="row g-4">
+
+            <!-- BUAT PENGADUAN -->
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <div class="feature-icon icon-primary">
+                        <i class="bi bi-file-earmark-plus-fill"></i>
+                    </div>
+
+                    <h2 class="feature-title">
+                        Buat Pengaduan
+                    </h2>
+
+                    <p class="feature-description">
+                        Laporkan masalah dan gangguan 
+                        teknologi informasi kepada tim TI
+                        agar dapat segera ditangani.
+                    </p>
+
+                    <a
+                        href="{{ url_for('buat_pengaduan') }}"
+                        class="feature-btn btn-primary-green"
+                    >
+                        <i class="bi bi-send-fill"></i>
+                        Buat Pengaduan
+                    </a>
+
+                    <div class="card-decoration decoration-primary">
+                        <img
+                            src="{{ url_for('static', filename='image/buat-pengaduan.png') }}"
+                            alt="Ilustrasi Buat Pengaduan"
+                        >
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PENGADUAN SAYA -->
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <div class="feature-icon icon-green">
+                        <i class="bi bi-list-check"></i>
+                    </div>
+
+                    <h2 class="feature-title">
+                        Pengaduan Saya
+                    </h2>
+
+                    <p class="feature-description">
+                        Lihat pengaduan yang sudah dibuat
+                        dan pantau perkembangan status
+                        pengaduan Anda.
+                    </p>
+
+                    <a
+                        href="{{ url_for('pengaduan_saya') }}"
+                        class="feature-btn btn-green"
+                    >
+                        <i class="bi bi-eye-fill"></i>
+                        Lihat Pengaduan
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                    <div class="card-decoration decoration-green">
+                        <img 
+                            src="{{ url_for('static', filename='image/pengaduan-saya.png') }}"
+                            alt="Ilustrasi Pengaduan Saya"
+                        >
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- =====================================================
+                        BOOTSTRAP JS
+    ===================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+</body>
+</html>

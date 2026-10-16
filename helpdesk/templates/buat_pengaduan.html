@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Buat Pengaduan - Helpdesk TI</title>
+
+    <!--BOOTSTRAP 5-->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!--BOOTSTRAP ICON-->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #F3F7F3;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #174C35;
+        }
+
+        /* =========================
+                SIDEBAR
+        ========================= */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            width: 260px;
+            height: 100vh;
+            background: linear-gradient(
+                180deg,
+                #123D2B 0%,
+                #26734D 100%
+            );
+            color: white;
+            padding: 25px 18px;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 5px 10px 30px;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            background: #26734D;
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+        .brand-text {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .brand-text span {
+            color: #8FC69B;
+        }
+
+        /* =========================
+                    MENU
+        ========================= */
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-menu a {
+            color: #d9e4f5;
+            text-decoration: none;
+
+            padding: 14px 16px;
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .sidebar-menu a i {
+            font-size: 20px;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .sidebar-menu a.active {
+            background: linear-gradient(
+                90deg,
+                #26734D,
+                #34865D
+            );
+
+            color: white;
+            box-shadow: 0 5px 15px rgba(38, 115, 77, 0.25);
+        }
+
+        /* =========================
+                SIDEBAR FOOTER
+        ========================= */
+        .sidebar-footer {
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 25px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 25px 12px 0;
+        }
+
+        .sidebar-footer small {
+            color: #8fa8ca;
+        }
+
+        .sidebar-footer p {
+            margin: 5px 0 0;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* =========================
+                    MAIN
+        ========================= */
+        .main-wrapper {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        /* =========================
+                    TOPBAR
+        ========================= */
+        .topbar {
+            height: 74px;
+            background: white;
+
+            border-bottom: 1pc solid #E1EAE2;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            padding: 0 32px;
+            gap: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            color: #344563;
+            font-size: 14px;
+        }
+
+        .user-icon {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: #EAF4ED;
+            color: #26734D;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+
+            border: 1px solid #dce4ee;
+            background: white;
+
+            color: #344563;
+
+            padding: 9px 16px;
+            border-radius: 10px;
+
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #F3F7F3;
+            color: #26734D;
+        }
+
+        /* =========================
+                CONTENT
+        ========================= */
+        .content {
+            padding: 42px 45px 60px;
+            max-width: 1150px;
+        }
+
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            background: #EAF4ED;
+            color: #26734D;
+
+            padding: 9px 15px;
+
+            border-radius: 30px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            margin-bottom: 18px;
+        }
+
+        .page-title {
+            font-size: 38px;
+            font-weight: 700;
+
+            margin-bottom: 8px;
+            color: #174C35;
+        }
+
+        .page-title span  {
+            color: #26734D;
+        }
+
+        .page.description {
+            color: #6D8274;
+            font-size: 16px;
+
+            margin-bottom: 30px;
+        }
+
+        /* =========================
+                FORM CARD
+        ========================= */
+        .form-card {
+            background: white;
+            border: 1px solid #DCE9DE;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 
+                    0 10px 30px rgba(31, 56, 88, 0.08);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            margin-bottom: 30px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid #edf1f6;
+        }
+
+        .form-header-icon {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 15px;
+
+            background: #EAF4ED;
+            color: #26734D;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+        }
+
+        .form-header h3 {
+            margin: 0;
+
+            font-size: 22px;
+            font-weight: 700;
+            color: #174C35;
+        }
+
+        .form-header p {
+            margin: 4px 0 0;
+
+            color: #8190a5;
+            font-size: 14px;
+        }
+
+        /* =========================
+                    FORM
+        ========================= */
+        .form-label {
+            font-weight: 600;
+            color: #344563;
+            margin-bottom: 8px;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #D7E3D9;
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: #344563;
+            box-shadow: none;
+            transition: 0.2s;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #26734D;
+            box-shadow: 
+                    0 0 0 3px rgba(38, 115, 77, 0.12);
+        }
+
+        .textarea.form-control {
+            min-height: 145px;
+            resize: vertical;
+        }
+
+        .form-text {
+            color: #8a98aa;
+            font-size: 13px;
+        }
+
+        /* =========================
+                    BUTTON
+        ========================= */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #edf1f6;
+        }
+
+        .btn-cancel {
+            background: #f2f5f9;
+            color: #5c6b7e;
+
+            border: none;
+            padding: 12px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background: #e5eaf1;
+            color: #344563;
+        }
+
+        .btn-submit {
+            background: linear-gradient(
+                135deg,
+                #26734D,
+                #34865D
+            );
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 
+                    0 5px 15px rgba(38, 115, 77, 0.25);
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 
+                    0 8px 10px rgba(38, 115, 77, 0.30);
+            color: white;
+        }
+
+        /* =========================
+                RESPONSIVE
+        ========================= */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .main-wrapper {
+                margin-left: 220px;
+            }
+
+            .content {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .sidebar-footer {
+                display: none;
+            }
+
+            .main-wrapper {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 25px 18px;
+            }
+
+            .page-title {
+                font-size: 30px;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+
+            .btn-cancel,
+            .btn-submit {
+                text-align: center;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- =========================
+                SIDEBAR
+    ========================= -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="bi bi-headset"></i>
+            </div>
+
+            <div class="brand-text">
+                Helpdesk <span>TI</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            
+            <!--DASHBOARD-->
+            <a href="{{ url_for('dashboard') }}">
+                <i class="bi bi-house-door-fill"></i>
+                    <span>Dashboard</span>
+            </a>
+
+            <!--BUAT PENGADUAN-->
+            <a 
+                href="{{ url_for('buat_pengaduan') }}"
+                class="active"
+            >
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Buat Pengaduan</span>
+            </a>
+
+            <!--PENGADUAN SAYA-->
+            <a href="{{ url_for('pengaduan_saya') }}">
+                <i class="bi bi-file-earmark-text-fill"></i>
+                <span>Pengaduan Saya</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <small>
+                <i class="bi bi-shield-check"></i>
+                &nbsp; Helpdesk TI
+            </small>
+
+            <p>
+                Solusi cepat, layanan terbaik
+            </p>
+        </div>
+    </aside>
+
+    <!-- =========================
+                MAIN
+    ========================= -->
+    <div class="main-wrapper">
+
+        <!--TOPPBAR-->
+        <header class="topbar">
+            <div class="user-info">
+                <div class="user-icon">
+                    <i class="bi bi-person"></i>
+                </div>
+
+                <span>
+                    Halo,
+                    <span class="user-name">
+                        {{ session.get('nama') }}
+                    </span>
+                </span>
+            </div>
+
+            <a 
+                href="{{ url_for('logout') }}"
+                class="logout-btn"
+            >
+                <i class="bi bi-box-arrow-right"></i>
+                &nbsp; Logout
+            </a>
+            
+        </header>
+
+        <!--CONTENT-->
+        <main class="content">
+
+            <!--HEADER-->
+            <div class="welcome-badge">
+                <i class="bi bi-plus-circle-fill"></i>
+                Buat Pengaduan Baru
+            </div>
+
+            <h1 class="page-title">
+                Buat <span>Pengaduan</span>
+            </h1>
+
+            <p class="page-description">
+                Sampaikan masalah teknologi informasi yang kamu alami
+                agar dapat segera ditangani oleh tim TI
+            </p>
+
+            <!--FFROM CARD-->
+            <div class="form-header">
+                <div class="form-header-icon">
+                    <i class="bi bi-file-earmark-plus-fill"></i>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Form Pengaduan TI
+                    </h3>
+
+                    <p>
+                        Lengkapi informasi masalah yang ingin dilaporkan.
+                    </p>
+                </div>
+            </div>
+
+            <!--FORM-->
+            <form   
+                method="POST"
+                action="{{ url_for('buat_pengaduan') }}"
+            >
+                
+                <!--JUDUL-->
+                <div class="mb-4">
+                    <label  
+                        for="judul"
+                        class="form-label"
+                    >
+                        Judul Masalah
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="judul"
+                        name="judul"
+                        placeholder="Contoh: Laptop tidak dapat menyala"
+                        required
+                    >
+                </div>
+
+                <!--KATEGORI + PRIORITAS-->
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+
+                        <label
+                            for="kategori"
+                            class="form-label"
+                        >
+                    
+                            Katergori Permasalahan
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="kategori"
+                            name="kategori"
+                            required
+                        >
+                    
+                            <option
+                                value=""
+                                selected
+                                disabled
+                            >
+                                Pilih kategori
+                            </option>
+
+                            <option value="Hardware">
+                                Hardware
+                            </option>
+
+                            <option value="Software">
+                                Software
+                            </option>
+
+                            <option value="Jaringan">
+                                Jaringan
+                            </option>
+
+                            <option value="Aplikasi">
+                                Aplikasi
+                            </option>
+
+                            <option value="Akun">
+                                Akun / login
+                            </option>
+
+                            <option value="Lainnya">
+                                Lainnya
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label
+                            for="prioritas"
+                            class="form-label"
+                        >
+                            Prioritas
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="prioritas"
+                            name="prioritas"
+                            required
+                        >
+                            <option
+                                value=""
+                                selected
+                                disabled
+                            >
+                        
+                                Pilih prioritas
+                            </option>
+
+                            <option value="Rendah">
+                                Rendah
+                            </option>
+
+                            <option value="Sedang">
+                                Sedang
+                            </option>
+
+                            <option value="Tinggi">
+                                Tinggi
+                            </option>
+                    </select>
+                    </div>
+                </div>
+
+                <!--DESKRIPSI-->
+                <div class="mb-4">
+                    <label
+                        for="deskripsi"
+                        class="form-label"
+                    >
+                        Deskripsi Masalah
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        id="deskripsi"
+                        name="deskripsi"
+                        rows="5"
+                        placeholder="Jelaskan masalah yang terjadi secara detail.."
+                        required
+                    ></textarea>
+
+                    <div class="form-text mt-2">
+                        Jelaskan kronologi atau kondisi masalah
+                        agar tim dapat membantu dengan lebih cepat.
+                    </div>
+                        
+                </div>
+
+                <!--BUTTON-->
+                <div class="form-actions">
+                    <a 
+                        href="{{ url_for('dashboard') }}"
+                        class="btn-cancel"
+                    >
+                        <i class="bi bi-arrow-left"></i>
+                        &nbsp; Batal
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn-submit"
+                    >
+                        <i class="bi bi-send-fill"></i>
+                        &nbsp; Kirim Pengaduan
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

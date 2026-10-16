@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Akun |  Helpdesk TI</title>
+
+    <!--BOOTSTRAP JS-->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!--BOOTSTRAP ICONS-->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        :root {
+            --green-dark: #174c35;
+            --green-main: #26734d;
+            --green-light: #eaf4ed;
+            --green-accent: #8fc69b;
+            --text-dark: #24352b;
+            --text-muted: #758278;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--page-bg);
+            color: var(--text-dark);
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 1000px;
+            min-height: 620px;
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            background: #fff;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 15px 45px rgba(23, 76, 53, 0.12);
+        }
+
+        .register-banner {
+            position: relative;
+            padding: 48px 38px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #fff;
+            background: linear-gradient(
+                145deg,
+                #174c35,
+                #26734d
+            );
+            overflow: hidden;
+        }
+
+        .register-banner::before,
+        .register-banner::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .register-banner::before {
+            width: 280px;
+            height: 280px;
+            right: -100px;
+            top: -80;
+        }
+
+        .register-banner::after {
+            width: 220px;
+            height: 220px;
+            left: -100px;
+            bottom: -70px;
+        }
+
+        .brand,
+        .banner-content,
+        .banner-footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .brand-icon {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: rgba(255, 255, 255, 0.15);
+            font-size: 25px;
+        }
+
+        .banner-content {
+            margin: 45px 0;
+        }
+
+        .banner-content h1 {
+            margin-bottom: 20px;
+            font-size: 36px;
+            line-height: 1.25;
+            font-weight: 750;
+        }
+
+        .banner-content p {
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 22px;
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 14px;
+        }
+
+        .feature i {
+            font-size: 20px;
+            color: var(--green-accent);
+        }
+
+        .banner-footer {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 12px;
+        }
+
+        .register-form-section {
+            padding: 45px 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-heading {
+            margin-bottom: 28px;
+        }
+
+        .form-heading h2 {
+            margin-bottom: 10px;
+            color: var(--green-dark);
+            font-size: 29px;
+            font-weight: 750;
+        }
+
+        .form-heading p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .form-label {
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 650;
+            color: #34474b;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group-text {
+            padding-left: 14px;
+            padding-right: 12px;
+            color: var(--green-main);
+            background: #fff;
+            border-color: #dce7de;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .form-control {
+            min-height: 47px;
+            border-color: #dce7de;
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+            font-size: 14px;
+            box-shadow: none !important;
+        }
+
+        .form-control:focus {
+            border-color: var(--green-main);
+        }
+
+        .input-group:focus-within .input-group-text {
+            border-color: var(--green-main);
+        }
+
+        .password-toggle {
+            border: 1px solid #dce7de;
+            border-left: none;
+            background: #fff;
+            color: var(--text-muted);
+            border-radius: 0 10px 10px 0;
+            padding: 0 14px;
+        }
+
+        .password-toggle:hover {
+            color: var(--green-main);
+        }
+
+        .password-toggle + .form-control {
+            border-radius: 0;
+        }
+
+        .btn-register {
+            width: 100%;
+            min-height: 49px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 10px;
+            background: var(--green-main);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 650;
+            transition: 0.2s ease;
+        }
+
+        .btn-register:hover {
+            background: var(--green-dark);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .login-link {
+            margin-top: 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .login-link a {
+            color: var(--green-main);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            color: var(--green-dark);
+            text-decoration: underline;
+        }
+
+        .alert {
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .register-container {
+                max-width: 500px;
+                grid-template-columns: 1fr;
+            }
+
+            .register-banner {
+                padding: 28px;
+            }
+
+            .banner-content {
+                margin: 30px 0 15px;
+            }
+
+            .banner-content h1 {
+                font-size: 28px;
+            }
+
+            .banner-content p {
+                margin-bottom: 0;
+            }
+
+            .feature,
+            .banner-footer {
+                display: none;
+            }
+
+            .register-form-section {
+                padding: 32px 25px;
+            }
+
+            .form-heading h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+
+        <section class="register-banner">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="bi bi-headset"></i>
+                </div>
+                <span>Helpdesk TI</span>
+            </div>
+
+                <div class="banner-content">
+                    <h1>Bergabung dengan Helpdesk TI</h1>
+                    <p>
+                        Buat akun untuk menyampaikan pengaduan, memantau
+                        perkembangan laporan, dan mendapatkan bantuan
+                        dari tim TI dengan lebih mudah.
+                    </p>
+
+                    <div class="feature">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>Pelaporan masalah TI lebih mudah</span>
+                    </div>
+
+                    <div class="feature">
+                        <i class="bi bi-clipboard-check-fill"></i>
+                        <span>Pantau status pengaduan Anda</span>
+                    </div>
+
+                    <div class="feature">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Akses akun secara pribadi</span>
+                    </div>
+                </div>
+
+                <div class="banner-footer">
+                    &copy; 2026 Helpdesk TI. Sistem layanan Teknologi Informasi.
+                </div>
+            </section>
+
+            <section class="register-form-section">
+                <div class="form-heading">
+                    <h2>Buat Akun</h2>
+                    <p>Lengkapi data berikut untuk mendaftar.</p>
+                </div>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form action="{{ url_for('register') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama Lengkap</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input
+                                type="text"
+                                class=form-control"
+                                id="nama"
+                                name="nama"
+                                placeholder="Masukkan nama lengkap"
+                                autocomplete="name"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person-badge"></i>
+                            </span>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="username"
+                                name="username"
+                                placeholder="Buat username"
+                                autocomplete="username"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Buat password"
+                                autocomplete="new-password"
+                                minlength="8"
+                                required
+                            >
+                            <button
+                                class="password-toggle"
+                                type="button"
+                                onclick="togglePassword('password', 'iconPassword')"
+                                aria-label="Tampilkan password"
+                            >
+                                <i class="bi bi-eye" id="iconPassword"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted">Gunakan minimal 8 karakter.</small>
+                    </div>
+                    <div class="mb-4">
+                        <label for="konfirmasi_password" class="form-label">
+                            Konfirmasi Password
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-shield-lock"></i>
+                            </span>
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="konfirmasi_password"
+                                name="konfirmasi_password"
+                                placeholder="Ulangi password"
+                                autocomplete="new-password"
+                                minlength="8"
+                                required
+                            >
+                            <button
+                                class="password-toggle"
+                                type="button"
+                                onclick="togglePassword('konfirmasi_password', 'iconPassword')"
+                                aria-label="Tampilkan konfirmasi password"
+                            >
+                                <i class="bi bi-eye" id="iconKonfirmasi"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-register">
+                        <i class="bi bi-person-plus me-2"></i>Daftar Akun
+                    </button>
+                </form>
+
+                <div class="login-link">
+                    Sudah memilki akun?
+                    <a href="{{ url_for('login') }}">Masuk di sini</a>
+                </div>
+            </section>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            function togglePassword(inputId, iconId) {
+                const input = document.getElementById(inputId);
+                const icon = document.getElementById(iconId);
+
+                if (input.type === "password") {
+                    input.type = "text";
+                    icon.classList.remove("bi-eye");
+                    icon.classList.add("bi-eye-slash");
+                } else {
+                    input.type = "password";
+                    icon.classList.remove("bi-eye-slash");
+                    icon.classList.add("bi-eye");
+                }
+            }
+
+            document,querySelector("form").addEventListener("submit", function(event) {
+                const password = document.getElementById("password").value;
+                const konfirmasi = document.getElementById("konfirmasi_password").value;
+
+                if (password !== konfirmasi) {
+                    event.preventDefault();
+                    alert("konfirmasi password tidak sama dengan password.")
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

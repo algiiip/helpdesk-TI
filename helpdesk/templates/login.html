@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<haed>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Login Helpdesk TI</title>
+
+    <!--BOOTSTRAP JS-->
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!--BOOTSTRAP ICON-->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        :root {
+            --green-dark: #174c35;
+            --green-main: #26734d;
+            --green-light: #eaf4ed;
+            --green-accent: #8fc69b;
+            --text-dark: #24352b;
+            --text-muted: #758278;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f3f7f3;
+            color: var(--text-dark);
+        }
+
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 35px 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 1050px;
+            min-height: 610px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #ffffff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(25, 75, 48, 0.12);
+        }
+
+        /*PANEL KIRI*/
+        .brand-panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 45px;
+            color: #ffffff;
+            background: 
+                radial-gradient(
+                    circle at 15% 85%,
+                    rgba(143, 198, 155, 0.22),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    145deg,
+                    #174c35,
+                    #216743 65%,
+                    #318054
+                );
+                overflow: hidden;
+        }
+
+        .brand-panel::before,
+        .brand-panel::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .brand-panel::before {
+            width: 340px;
+            height: 340px;
+            right: -150px;
+            top: -120px;
+        }
+
+        .brand-panel::after {
+            width: 260px;
+            height: 260px;
+            left: -140px;
+            bottom: -100px;
+        }
+
+        .brand-content,
+        .brand-footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-logo {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            border-radius: 17px;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        .brand-label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #c6e5cf;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .brand-title {
+            font-size: clamp(32px, 3vw, 43px);
+            line-height: 1.2;
+            font-weight: 750;
+            margin-bottom: 20px;
+        }
+
+        .brand-description {
+            max-width: 360px;
+            color: #d9eade;
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .feature-list {
+            margin-top: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: #edf7ef;
+            font-size: 14px;
+        }
+
+        .feature-icon {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #c5e8ce;
+        }
+
+        .brand-footer {
+            margin-top: 45px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.17);
+            color: #c6dfce;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        /*PANEL KANAN*/
+        .form-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 55px;
+        }
+
+        .form-heading {
+            margin-bottom: 32px;
+        }
+
+        .form-heading .welcome {
+            color: var(--green-main);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .form-heading h2 {
+            font-size: 30px;
+            font-weight: 750;
+            letter-spacing: -0.7px;
+            margin-bottom: 10px;
+        }
+
+        .form-heading p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 650;
+            margin-bottom: 9px;
+            color: #34473a;
+        }
+
+        .input-group-custom {
+            position: relative;
+            margin-bottom: 23px;
+        }
+
+        .input-group-custom .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+            color: #829287;
+            font-size: 17px;
+            pointer-events: none;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            height: 52px;
+            padding: 12px 45px 12px 45px;
+            border: 1px solid #dfe7e0;
+            border-radius: 12px;
+            background: #fbfdfb;
+            font-size: 14px;
+            color: var(--text-dark);
+            transition: 0.2s ease;
+        }
+
+        .form-control-custom:focus {
+            outline: none;
+            border-color: var(--green-main);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(30, 115, 77, 0.10);
+        }
+
+        .form-control-custom::placeholder {
+            color: #a2ada4;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 4;
+            border: none;
+            background: transparent;
+            color: #849087;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .toggle-password:hover {
+            color: var(--green-main);
+        }
+
+        .btn-login {
+            width: 100%;
+            min-height: 52px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 12px;
+            background: var(--green-main);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .btn-login:hover {
+            background: var(--green-dark);
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 18px rgba(38, 115, 77, 0.20);
+        }
+
+        .register-text {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .register-text a {
+            color: var(--green-main);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .register-text a:hover {
+            color: var(--green-dark);
+            text-decoration: underline;
+        }
+
+        .security-note {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            margin-top: 35px;
+            color: #849087;
+            font-size: 12px;
+        }
+
+        .security-note i {
+            color: var(--green-main);
+        }
+
+        .alert {
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        /*RESPONSIVE*/
+        @media  (max-width: 768px) {
+            .login-wrapper {
+                padding: 20px 14px;
+            }
+
+            .login-container {
+                max-width: 480px;
+                grid-template-columns: 1fr;
+                min-height: auto;
+                border-radius: 20px;
+            }
+
+            .brand-logo {
+                width: 48px;
+                height: 48px;
+                font-size: 23px;
+                margin-bottom: 20px;
+            }
+
+            .brand-title {
+                font-size: 29px;
+            }
+
+            .brand-description {
+                font-size: 13px;
+            }
+
+            .feature-list {
+                margin-top: 22px;
+                gap: 12px;
+            }
+
+            .brand-footer {
+                margin-top: 25px
+            }
+
+            .form-panel {
+                padding: 32px 25px;
+            }
+
+            .form-heading h2 {
+                font-size: 26px;
+            }
+
+            .security-note {
+                margin-top: 25px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .brand-panel {
+                padding: 24px;
+            }
+
+            .form-panel {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</haed>
+
+<body>
+
+    <div class="login-wrapper">
+        <main class="login-container">
+
+            <!--PANEL KIRI: IDENTITAS-->
+            <section class="brand-panel">
+                <div class="brand-content">
+
+                    <div class="brand-logo">
+                        <i class="bi bi-headset"></i>
+                    </div>
+
+                    <div class="brand-label">TI Support System</div>
+
+                    <h1 class="brand-title">
+                        Helpdesk<br>
+                        Teknologi Informasi
+                    </h1>
+
+                    <p class="brand-description">
+                        Platform layanan pengaduan teknologi informasi
+                        untuk membantu proses pelaporan, pemantauan,
+                        dan penyelesaian kendala TI. 
+                    </p>
+
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="bi bi-ticket-detailed"></i>
+                            </div>
+                            <span>Pelaporan kendala TI secara terstruktur</span>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </div>
+                            <span>Akses layanan sesuai akun pengguna</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="brand-footer">
+                    <i class="bi bi-leaf me-1"></i>
+                    Sistem Informasi Helpdesk TI
+                    <br>
+                    Mendukung layanan teknologi informasi yang lebih baik.
+                </div>
+            </section>
+
+            <!--PANEL KANANl FORM LOGIN-->
+            <section class="form-panel">
+
+                <div class="form-heading">
+                    <div class="welcome">Selamat datang kembali</div>
+                    <h2>Masuk ke akun Anda</h2>
+                    <p>
+                        Silakan masukkan username dan password
+                        untuk mengakses layanan Helpdesk TI.
+                    </p>
+                </div>
+
+                <!--FLASH MESSAGE FLASK-->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div
+                                class="alert alert-{{ category }} alert-dismissible fade show"
+                                role="alert"
+                            >
+                                {{ message }}
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Tutup"
+                                ></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!--FORM LOGIN-->
+                <form method="POST" action="{{  url_for('login') }}">
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            Username
+                        </label>
+
+                        <div class="input-group-custom">
+                            <i class="bi bi-person input-icon"></i>
+
+                            <input  
+                                type="text"
+                                class="form-control-custom"
+                                id="username"
+                                name="username"
+                                placeholder="Masukkan username"
+                                autocomplete="username"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            Password
+                        </label>
+
+                        <div class="input-group-custom">
+                            <i class="bi bi-lock input-icon"></i>
+
+                            <input
+                                type="password"
+                                class="form-control-custom"
+                                id="password"
+                                name="password"
+                                placeholder="Masukkan password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                id="togglePassword"
+                                aria-label="Tampilkan password"
+                                title="Tampilkan password"
+                            >
+                                <i class="bi bi-eye" id="passwordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-login">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>
+                        Login
+                    </button>
+
+                </form>
+
+                <div class="register-text">
+                    Belum punya akun?
+                    <a href="{{ url_for('register') }}">Daftar Akun</a>
+                </div>
+
+                <div class="security-note">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <span>Gunakan akun anda untuk masuk dengan aman.</span>
+                </div>
+                
+            </section>
+
+        </main>
+    </div>
+
+    <!--BOOTSTRAP JS UNTUK MENUTUP PESAN NOTIFIKASI-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--FITUR TAMPILAN / SEMBUNYIKAN PASSWORD-->
+    <script>
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("password");
+        const passwordIcon = document.getElementById("passwordIcon");
+
+        togglePassword.addEventListener("click", function () {
+            const isPassword = passwordInput.type === "password";
+
+            passwordInput.type = isPassword ? "text" : "password";
+
+            passwordIcon.classList.toggle("bi-eye", !isPassword);
+            passwordIcon.classList.toggle("bi-eye-slash", isPassword);
+
+            togglePassword.setAttribute(
+                "aria-label",
+                isPassword ? "Sembunyikan password" : "Tampilkan password"
+            );
+
+            togglePassword.setAttribute(
+                "title",
+                isPassword ? "Sembunyikan password" : "Tampilkan password"
+            );
+        });
+    </script>
+    
+</body>
+</html>
