@@ -1,4 +1,6 @@
+
 import mysql.connector
+import os
 
 from config import (
     MYSQL_HOST,
@@ -10,10 +12,21 @@ from config import (
 
 
 def get_connection():
-    return mysql.connector.connect(
-        host=MYSQL_HOST,
-        user=MYSQL_USER,
-        password=MYSQL_PASSWORD,
-        database=MYSQL_DATABASE,
-        port=MYSQL_PORT
-    )
+    config = {
+        "host": MYSQL_HOST,
+        "user": MYSQL_USER,
+        "password": MYSQL_PASSWORD,
+        "database": MYSQL_DATABASE,
+        "port": MYSQL_PORT,
+        "connection_timeout": 15,
+    }
+
+    # Aktifkan SSL ketika aplikasi menggunakan TiDB Cloud.
+    ssl_ca = os.environ.get("MYSQL_SSL_CA")
+
+    if ssl_ca:
+        config["ssl_ca"] = ssl_ca
+        config["ssl_verify_cert"] = True
+        config["ssl_verify_identity"] = True
+
+    return mysql.connector.connect(**config)
